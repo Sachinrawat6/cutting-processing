@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Global base styles
+   ------------------------------------------------------------
+   Soft page background, readable default foreground, and a
+   subtle grid rhythm so every page doesn't have to re-declare
+   the same wrapper styles.
+   ============================================================ */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: #f5f7fa;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
