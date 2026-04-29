@@ -25,7 +25,19 @@ const Scanner = () => {
     inputRef.current.select();
   };
 
-  const { data } = useAccessoryController(records?.style_number);
+  const { data, loading: accessoryLoading } = useAccessoryController(
+    records?.style_number
+  );
+
+  /*
+   * Hard guard: if there is no active order (failed scan, blank
+   * input, etc.) the accessory table must receive empty data —
+   * even if the controller's internal state hasn't caught up yet.
+   * This eliminates the brief render where the previous order's
+   * accessories would otherwise still be visible.
+   */
+  const accessoryData = records ? data : undefined;
+  const accessoryIsLoading = Boolean(records) && accessoryLoading;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -43,12 +55,13 @@ const Scanner = () => {
 
         <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="w-full">
-            <AccessoryTable data={data} records={records} />
             <AccessoryDetails
               order_id={order_id}
               handleSubmit={handleSubmit}
               setRecords={setRecords}
+              records={records}
             />
+            <AccessoryTable data={accessoryData} loading={accessoryIsLoading} />
           </div>
           <div className="w-full">
             <ProductImage records={records} />

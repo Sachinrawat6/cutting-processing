@@ -20,5 +20,20 @@ export const getSheetValues = async () => {
   const { sheetId, apiKey, range } = GOOGLE_SHEET_CONFIG;
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
   const response = await httpClient.get(url);
-  return response.data?.values || [];
+  const data = response.data?.values || [];
+
+  const transformed = data.map((row) => {
+    let [accessory_number, accessory_name, accessory_type, accessory_image, accessory_color] = row;
+    const isAccessoryNumberValid = /^\d+$/.test(accessory_number);
+    if (!isAccessoryNumberValid) {
+      console.warn(`[googleSheet.service] Invalid accessory number: ${accessory_number}`);
+      return null; // Skip rows with invalid accessory numbers
+    }
+
+    accessory_number = parseInt(accessory_number, 10);
+
+    return { accessory_number, accessory_name, accessory_type, accessory_image, accessory_color };
+  });
+
+  return transformed;
 };

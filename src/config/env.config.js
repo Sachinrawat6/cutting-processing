@@ -41,7 +41,7 @@ export const NOCODB_CONFIG = Object.freeze({
 /** Stylewise backend endpoint (list-all-styles) */
 export const STYLEWISE_API = required('VITE_STYLEWISE_API');
 
-/** Google Sheet configuration block (pattern + MRP data) */
+/** Google Sheet configuration block (accessory data) */
 export const GOOGLE_SHEET_CONFIG = Object.freeze({
   sheetId: required('VITE_GOOGLE_SHEET_ID'),
   apiKey: required('VITE_GOOGLE_SHEET_API_KEY'),

@@ -1,26 +1,32 @@
 import React from 'react';
 import { useProductController } from '../../../controllers/useProductController';
-import { MYNTRA_PREVIEW_URL } from '../../../constants';
 
 /**
- * Renders the Myntra preview iframe for the scanned style.
- * All fetching logic lives in `useProductController`.
+ * Renders a product preview iframe for the scanned style.
+ *
+ * Source selection lives in `useProductController`:
+ *   - Myntra wins if listed
+ *   - else Shopify (qurvii.com) is used
  *
  * @param {object} props
  * @param {{ style_number?: string|number }} [props.records]
  */
 const ProductImage = ({ records }) => {
-  const { styleId, loading } = useProductController(records?.style_number);
-  const hasStyle = Boolean(styleId?.style_id);
+  const { preview, loading } = useProductController(records?.style_number);
+  // Hard guard — without an active order, never show a preview,
+  // even if the controller still holds the previous order's data.
+  const hasPreview = Boolean(records) && Boolean(preview?.url);
+
+  const subtitle = hasPreview
+    ? `${preview.channel} · #${preview.productId}`
+    : 'Live product preview';
 
   return (
     <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3">
         <div>
           <h3 className="text-sm font-semibold text-gray-900">Product Preview</h3>
-          <p className="text-xs text-gray-500">
-            {hasStyle ? `Myntra style #${styleId.style_id}` : 'Live preview from Myntra'}
-          </p>
+          <p className="text-xs text-gray-500">{subtitle}</p>
         </div>
         {loading && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200">
@@ -30,12 +36,12 @@ const ProductImage = ({ records }) => {
         )}
       </div>
 
-      <div className="relative  w-full overflow-hidden bg-gray-50">
-        {hasStyle ? (
+      <div className="relative w-full overflow-hidden bg-gray-50">
+        {hasPreview ? (
           <iframe
-            title="Product preview"
+            title={`Product preview - ${preview.channel}`}
             className="h-175 w-full scale-[1.15] -mt-40 origin-top"
-            src={`${MYNTRA_PREVIEW_URL}/${styleId.style_id}`}
+            src={preview.url}
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center text-center text-sm text-gray-400">

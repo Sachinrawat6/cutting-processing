@@ -7,36 +7,55 @@ import { fetchAccessoryDetails } from '../models/accessory.model';
  * ------------------------------------------------------------
  *  Fetches accessory details whenever the active style number
  *  changes. Keeps the async/effect dance out of the view.
+ *
+ *  Always resets `data` at the start of each effect cycle so the
+ *  table never shows accessories from a previously-scanned order.
  * ============================================================
  */
 
 /**
  * @param {string|number|undefined} style_number
- * @returns {{ data: object|Array, loading: boolean, error: string|null }}
+ * @returns {{ data: object, loading: boolean, error: string|null }}
  */
 export const useAccessoryController = (style_number) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadAccessory = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const res = await fetchAccessoryDetails(style_number);
-      setData(res);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log('Failed to fetch accesory details error :: ', err);
-      setError('Failed to fetch accessory details');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (style_number) loadAccessory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let cancelled = false;
+
+    // Fresh slate on every style change — no stale rows.
+    setData({});
+    setError(null);
+
+    if (!style_number) {
+      setLoading(false);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await fetchAccessoryDetails(style_number);
+        if (cancelled) return;
+        setData(res || {});
+      } catch (err) {
+        if (cancelled) return;
+        // eslint-disable-next-line no-console
+        console.log('Failed to fetch accessory details error :: ', err);
+        setError('Failed to fetch accessory details');
+        setData({});
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [style_number]);
 
   return { data, loading, error };

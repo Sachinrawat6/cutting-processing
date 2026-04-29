@@ -18,6 +18,7 @@ import { PRODUCT_PREVIEW_URL } from '../constants';
  * @returns {Promise<object|undefined>}
  */
 export const getProductByStyleNumber = async (style_number) => {
-  const response = await httpClient.get(`${PRODUCT_PREVIEW_URL}?style_code=${style_number}`);
-  return response.data?.[0];
+  const response = await httpClient.get(`${PRODUCT_PREVIEW_URL}?styleNumber=${style_number}`);
+  // API envelope: { statusCode, data: { products: [...] }, message, success }
+  return response.data?.data?.products?.[0];
 };
