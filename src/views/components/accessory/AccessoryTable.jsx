@@ -54,8 +54,7 @@ const AccessoryTable = ({ data, loading = false }) => {
     return map;
   }, [accessoryData]);
 
-  const getMatched = (number) =>
-    accessoryByNumber.get(parseInt(number, 10)) || {};
+  const getMatched = (number) => accessoryByNumber.get(parseInt(number, 10)) || {};
 
   const accessories = Array.isArray(data?.accessories) ? data.accessories : [];
   const washCare = data?.washCare;
@@ -72,18 +71,14 @@ const AccessoryTable = ({ data, loading = false }) => {
       <div className="flex items-center justify-between border-b-2 border-gray-100 bg-gray-50 px-5 py-3">
         <h3 className="text-xl font-bold text-gray-900">Accessories</h3>
         {!isLoading && accessories.length > 0 && (
-          <span className="text-lg font-bold text-gray-700">
-            Total: {accessories.length}
-          </span>
+          <span className="text-lg font-bold text-gray-700">Total: {accessories.length}</span>
         )}
       </div>
 
       {/* Wash Care — shown once, only when we actually have data */}
       {!isLoading && washCare && (
         <div className="border-b-2 border-gray-100 bg-blue-50 px-5 py-3">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">
-            Wash Care
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700">Wash Care</p>
           <p className="mt-0.5 text-xl font-bold text-blue-900">{washCare}</p>
         </div>
       )}
@@ -96,8 +91,8 @@ const AccessoryTable = ({ data, loading = false }) => {
               loading && sheetLoading
                 ? 'Loading accessories...'
                 : loading
-                ? 'Loading accessories...'
-                : 'Loading reference data...'
+                  ? 'Loading accessories...'
+                  : 'Loading reference data...'
             }
           />
         ) : sheetError ? (
@@ -174,16 +169,13 @@ const AccessoryCard = ({ index, number, type, name, quantity, color }) => {
 
   return (
     <section className="flex gap-4 rounded-lg border-2 border-gray-200 bg-white p-4">
-      <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-emerald-600 text-3xl font-extrabold text-white">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-3xl font-extrabold text-white">
         {index}
       </div>
 
       <div className="flex-1 divide-y divide-gray-100">
         {fields.map((f) => (
-          <div
-            key={f.label}
-            className="flex items-baseline gap-3 py-2 first:pt-0 last:pb-0"
-          >
+          <div key={f.label} className="flex items-baseline gap-3 py-2 first:pt-0 last:pb-0">
             <span className="w-40 text-sm font-semibold uppercase tracking-wide text-gray-500">
               {f.label}
             </span>

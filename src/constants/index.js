@@ -14,6 +14,21 @@ export const MYNTRA_PREVIEW_URL = 'https://www.myntra.com';
 
 export const SHOPIFY_PREVIEW_URL = 'https://qurvii.com/products';
 
+export const FAST_API_URL = 'https://fastapi.qurvii.com/scan';
+
+/**
+ * Users-list endpoint. Returns:
+ *   { status, data: [{ id, user_name, locations: [{ id, name }] }, ...] }
+ * Used by the login screen to populate the user / location pickers.
+ */
+export const FAST_API_USERS_URL = 'https://fastapi.qurvii.com/getUsers';
+
+/**
+ * localStorage key for the persisted login session
+ * Shape: { user: { id, user_name }, location: { id, name } }
+ */
+export const AUTH_STORAGE_KEY = 'cutting-processing.auth';
+
 /**
  * Marketplace channel identifiers as returned by the products API
  * inside `marketPlaceDetails[].channel`. Centralised so string

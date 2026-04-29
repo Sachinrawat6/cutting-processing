@@ -45,7 +45,7 @@ export const STYLEWISE_API = required('VITE_STYLEWISE_API');
 export const GOOGLE_SHEET_CONFIG = Object.freeze({
   sheetId: required('VITE_GOOGLE_SHEET_ID'),
   apiKey: required('VITE_GOOGLE_SHEET_API_KEY'),
-  range: env.VITE_GOOGLE_SHEET_RANGE || 'A1:B',
+  range: 'accessory db!A2:E',
 });
 
 export default {
