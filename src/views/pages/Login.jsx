@@ -134,20 +134,11 @@ const Brand = () => (
 /*  Step 1 — enter user ID                                             */
 /* ------------------------------------------------------------------ */
 
-const UserIdStep = ({
-  idInput,
-  setIdInput,
-  idError,
-  onSubmit,
-  usersLoading,
-  usersError,
-}) => (
+const UserIdStep = ({ idInput, setIdInput, idError, onSubmit, usersLoading, usersError }) => (
   <>
     <div className="border-b-2 border-gray-100 bg-gray-50 px-5 py-3">
       <h2 className="text-lg font-bold text-gray-900">1. Enter your User ID</h2>
-      <p className="text-sm text-gray-500">
-        The number printed on your badge
-      </p>
+      <p className="text-sm text-gray-500">The number printed on your badge</p>
     </div>
 
     <form onSubmit={onSubmit} className="px-5 py-5">
@@ -164,7 +155,7 @@ const UserIdStep = ({
         pattern="[0-9]*"
         autoComplete="off"
         autoFocus
-        placeholder="e.g. 78"
+        placeholder="e.g. 123"
         value={idInput}
         onChange={(e) => setIdInput(e.target.value.replace(/\D/g, ''))}
         disabled={usersLoading || Boolean(usersError)}

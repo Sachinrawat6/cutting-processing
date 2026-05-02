@@ -12,7 +12,13 @@ import React from 'react';
  */
 const Input = ({ order_id, setOrderId, inputRef, handleSubmit }) => {
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      className="w-full"
+    >
       <div className="mx-auto w-full max-w-xl">
         <label htmlFor="orderId" className="mb-1.5 block text-sm font-medium text-gray-700">
           Order ID

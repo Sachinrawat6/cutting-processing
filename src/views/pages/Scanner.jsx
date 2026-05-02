@@ -31,9 +31,7 @@ const Scanner = () => {
     inputRef.current.select();
   };
 
-  const { data, loading: accessoryLoading } = useAccessoryController(
-    records?.style_number
-  );
+  const { data, loading: accessoryLoading } = useAccessoryController(records?.style_number);
 
   /*
    * Hard guard: if there is no active order (failed scan, blank
